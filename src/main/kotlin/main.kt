@@ -1,18 +1,22 @@
-fun main() {
-    val cardType: String = "Visa"
-    val prevTransactions: Int = 120_000_00
-    val currTransaction: Int = 85_000_00
-    countCommission(cardType, prevTransactions, currTransaction)
+enum class CardType {
+    Visa, VkPay, MasterCard, Maestro, Mir
 }
 
-fun countCommission(cardType: String = "Vk Pay", prevTransactions: Int = 0, currTransaction: Int) {
+fun main() {
+    val cardType: CardType = CardType.Visa
+    val currTransaction: Int = 85_000_00
+    var transaction = countCommission(cardType, currTransaction)
+    println("Перевод с учетом комиссии составит ${( transaction/ 100).toInt()} рублей ${transaction % 100} копеек")
+}
+
+fun countCommission(cardType: CardType = CardType.VkPay, currTransaction: Int): Int {
     var commission: Int = 0
     when (cardType) {
-        "MasterCard", "Maestro" -> if (currTransaction > 75_000_00) commission =
-            (currTransaction * 0.006 + 20_00).toInt()
-        "Visa", "Мир" -> commission =
-            if ((currTransaction * 0.0075).toInt() > 35_00) (currTransaction * 0.0075).toInt() else 35_00
+        CardType.MasterCard, CardType.Maestro -> if (currTransaction > 75_000_00) commission =
+         (currTransaction * 0.006 + 20_00).toInt()
+        CardType.Visa, CardType.Mir -> commission =
+         if ((currTransaction * 0.0075).toInt() > 35_00) (currTransaction * 0.0075).toInt() else 35_00
+
     }
-    val total: Int = currTransaction + commission
-    println("Перевод с учетом комиссии составит ${(total / 100).toInt()} рублей ${total % 100} копеек")
+    return currTransaction + commission
 }
