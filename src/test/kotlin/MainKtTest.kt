@@ -55,7 +55,7 @@ class MainKtTest {
             currTransaction = transact
         )
         //assert
-        assertEquals(8500000, result)
+        assertEquals(8700000, result)
     }
 
     @org.junit.Test
